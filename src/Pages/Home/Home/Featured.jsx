@@ -4,10 +4,9 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import slide1 from '../../../assets/watch.jpeg'
-import slide2 from '../../../assets/airpds.webp'
+import slide2 from '../../../assets/airpods.jpg'
 import slide3 from '../../../assets/ta.webp'
 import slide4 from '../../../assets/camera.jpeg'
-import slide5 from '../../../assets/laptop.webp'
 import SectionTitle from './SectionTitle';
 
 
@@ -49,11 +48,6 @@ const Featured = () => {
             <img src={slide4} alt="" />
             <h3 className='text-4xl uppercase text-center -mt-16 text-black'>Camera</h3>
             <p className='text-red-600'>"Camera"</p>
-            </SwiperSlide>
-        <SwiperSlide>
-            <img src={slide5} alt="" />
-            <h3 className='text-4xl uppercase text-center -mt-16 text-black'>Laptop</h3>
-            <p className='text-red-600'>"Computer"</p>
             </SwiperSlide>
       </Swiper>
        </section>
