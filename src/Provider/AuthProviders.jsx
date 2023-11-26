@@ -6,7 +6,7 @@ import { app } from "../Firebase/Firebase.config";
 
  export const AuthContext = createContext(null)
  const auth = getAuth(app);
-const AuthProvider = ({children}) => {
+const AuthProviders = ({children}) => {
     const [user,setUser] = useState(null)
     const [loading,setLoading] = useState(true)
 
@@ -15,9 +15,9 @@ const AuthProvider = ({children}) => {
         return createUserWithEmailAndPassword(auth,email,password)
     }
 
-    const signIn = (enail,password) =>{
+    const signIn = (email,password) =>{
         setLoading(true)
-        return signInWithEmailAndPassword(email,password)
+        return signInWithEmailAndPassword(auth,email,password)
     }
 
     const logOut = () =>{
@@ -25,13 +25,13 @@ const AuthProvider = ({children}) => {
         return signOut(auth)
     }
     useEffect(()=>{
-        const unSubscribe = onAuthStateChanged(auth,currentUser =>{
+        const unsubscribe = onAuthStateChanged(auth,currentUser =>{
             setUser(currentUser)
             console.log("current user",currentUser);
             setLoading(false)
         })
         return () =>{
-            return unSubscribe()
+            return unsubscribe()
         }
     },[])
 
@@ -49,4 +49,4 @@ const AuthProvider = ({children}) => {
     );
 };
 
-export default AuthProvider;
+export default AuthProviders;

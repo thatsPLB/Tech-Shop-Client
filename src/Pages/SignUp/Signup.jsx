@@ -1,15 +1,28 @@
+import { useContext } from "react";
+import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProviders";
 
 
 
 const SignUp = () => {
   const { register,handleSubmit,formState: {errors}} = useForm()
+  const {createUser} = useContext(AuthContext)
 
   const onSubmit = data => {
     console.log(data);
+    createUser(data.email, data.password)
+    .then(result =>{
+        const loggedUser = result.user;
+        console.log(loggedUser);
+    })
   }
     return (
+        <>
+        <Helmet>
+            <title>Unique Tech | Sign up </title>
+        </Helmet>
         <div className="hero min-h-screen ">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center lg:text-left">
@@ -36,17 +49,26 @@ const SignUp = () => {
                 <label className="label">
                   <span className="label-text">Password</span>
                 </label>
-                <input type="password" {...register("password", {required: true, minLength:6, maxLength:20})} placeholder="password" name="password" className="input text-white input-bordered" required />
+                <input type="password" {...register("password", {required: true,
+                     minLength:6,
+                      maxLength:20,
+                      pattern: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])/
+                    })}
+                       placeholder="password" name="password" className="input text-white input-bordered" required />
                 {errors.password?.type === 'required' && <p className="text-red-600">Password is required</p>}
+                {errors.password?.type === 'minLength' && <p className="text-red-600">Password must be 6 Characters</p>}
+                {errors.password?.type === 'maxLength' && <p className="text-red-600">Password must be less than 20 Characters</p>}
+                {errors.password?.type === 'pattern' && <p className="text-red-600">Password must have one uppercae,one lowercase, one number, one special character</p>}
               </div>
               <div className="form-control mt-6">
-                <button className="btn  bg-orange-600">Login</button>
+              <input className="btn bg-orange-600" type="submit" value="Sign Up" />
                 <p className='m-4 text-center'>Already have an account? <Link className='text-orange-600 font-bold' to="/login">Log In</Link></p>
               </div>
             </form>
           </div>
         </div>
       </div>
+        </>
     );
 };
 
